@@ -12,9 +12,9 @@ app.use(express.static(__dirname + '/build'));
 //   res.sendFile(path.resolve(__dirname, 'index.html'));
 // });
 
-app.get('/*', function (req, res) {
-    res.sendFile(path.join(__dirname, 'build', 'index.html'));
-});
+// app.get('/*', function (req, res) {
+//     res.sendFile(path.join(__dirname, 'build', 'index.html'));
+// });
 
 console.log("Running on port: " + port)
 app.listen(port);
