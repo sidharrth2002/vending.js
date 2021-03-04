@@ -16,7 +16,7 @@ export const authSlice = createSlice({
     isAuthenticated: cookie.get('access_token') ? true : false,
   },
   reducers: {
-    LOGINED: (state, action) => {
+    LOGIN: (state, action) => {
       cookie.set('access_token', action.payload.tokens.access.token);
       cookie.set('user', action.payload.user);
       state.user = action.payload.user;
@@ -30,14 +30,14 @@ export const authSlice = createSlice({
       state.token = undefined
       state.isAuthenticated = false
     },
-    UPDATE_USER: (state, action) => {
+    UPDATE: (state, action) => {
       cookie.set('user', action.payload);
       state.user = action.payload;
     },
   },
 });
 
-export const { LOGINED, LOGOUT, UPDATE_USER } = authSlice.actions;
+export const { LOGIN, LOGOUT, UPDATE_USER } = authSlice.actions;
 
 export const selectIsAuthenticated = state => state.isAuthenticated;
 export const selectUser = state => state.user;

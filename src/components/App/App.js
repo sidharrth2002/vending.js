@@ -31,11 +31,6 @@ class App extends React.Component {
   }
 
   render() {
-    const { isAuthenticated } = this.props;
-    // const { user } = this.props;
-    // const dispatch = useDispatch();
-
-    // console.log(isAuthenticated)
     return (
       <div>
         ATLAS
