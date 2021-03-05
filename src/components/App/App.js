@@ -7,6 +7,7 @@ import './App.css';
 import 'antd/dist/antd.css'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -14,23 +15,30 @@ class App extends React.Component {
       collapse: false,
       collapsed: false
     };
+    this.logout = this.logout.bind(this);
   }
 
-  onCollapse = collapsed => {
+  onCollapse(collapsed) {
     console.log(collapsed);
     this.setState({ collapsed });
   };
+
+  logout() {
+    LOGOUT();
+  }
 
   render() {
     const user = selectIsAuthenticated(selectUser);
     const { collapse, collapsed } = this.state
     return (
-      <Switch>
-        <Route exact path='/login'>
-          <Login />
-        </Route>
-        <ProtectedRoute exact path='/dashboard' component={Dashboard} />
-      </Switch>
+      <div>
+        <Switch>
+          <Route exact path='/login'>
+            <Login />
+          </Route>
+          <ProtectedRoute exact path='/dashboard' component={Dashboard} />
+        </Switch>
+      </div>
       );
   }
 }
