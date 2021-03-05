@@ -8,39 +8,42 @@ class Review extends Component {
     super(props);
 
     this.state = {
-      name: '',
-      gender: '',
-      age: '',
+      refuelItemInput: 0,
+      serviceOptions: 0,
+      moneyGoneRemarksInput: 0
     };
   }
 
   componentWillMount() {
     const { steps } = this.props;
-    const { name, gender, age } = steps;
+    const { repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
 
-    let machineId = this.props.match.id;
-
-    this.setState({ name, gender, age });
+    this.setState({ repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput });
   }
 
   render() {
-    const { name, gender, age } = this.state;
+    const { repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput  } = this.state;
+
     return (
       <div style={{ width: '100%' }}>
         <h3>Summary</h3>
         <table>
           <tbody>
             <tr>
-              <td>Name</td>
-              <td>{name.value}</td>
+              { refuelItemInput ? `<td>`+`Refueling Items : `+`</td>`+`
+              <td>`+`${refuelItemInput.value}`+`</td>` : "" }
             </tr>
             <tr>
-              <td>Gender</td>
-              <td>{gender.value}</td>
+            { serviceOptions ? `<td>`+`Service Types Chosen : `+`</td>`+`
+              <td>`+`${serviceOptions.value}`+`</td>` : "" }
             </tr>
             <tr>
-              <td>Age</td>
-              <td>{age.value}</td>
+            { moneyGoneRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
+              <td>`+`${moneyGoneRemarksInput.value}`+`</td>` : "" }
+            </tr>
+            <tr>
+              { repairRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
+              <td>`+`${repairRemarksInput.value}`+`</td>` : "" }
             </tr>
           </tbody>
         </table>
@@ -99,18 +102,32 @@ const CustomerService = props => {
             {
                 id: 'repairRemarks',
                 message: 'What seems to be the problem? Briefly describe the issue.',
-                user: true,
-                trigger: 'summary'
+                trigger: 'repairRemarksInput'
+            },
+            {
+
+              id: "repairRemarksInput",
+              user: true,
+              trigger: "summary"
+
             },
             {
                 id: 'moneyGoneRemarks',
                 message: 'Sorry to hear that. We will attempt to resolve the matter ASAP. Please enter remarks if any.',
-                trigger: 'summary'
+                trigger: 'moneyGoneRemarksInput'
             },
             {
-                id: 'summary',
-                message: 'Here is the summary'
-            }
+
+              id: "moneyGoneRemarksInput",
+              user: true,
+              trigger: "summary"
+
+            },
+            {
+              id: 'summary',
+              component: <Review />,
+              asMessage: true,
+            },
             //   {
             //     id: 'name',
             //     user: true,
