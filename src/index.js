@@ -18,13 +18,11 @@ const history = createHistory()
 
 ReactDOM.render(
   <BrowserRouter>
-  {/* <React.StrictMode> */}
     <Provider store={store}>
       <Router history={history}>
         <App />
       </Router>
     </Provider>
-  {/* </React.StrictMode> */}
   </BrowserRouter>,
   document.getElementById('root')
 );
