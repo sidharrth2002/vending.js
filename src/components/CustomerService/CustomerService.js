@@ -75,7 +75,7 @@ const CustomerService = props => {
             steps={[
             {
                 id: '1',
-                message: `Hi, welcome to Atlas Customer Service. How may I help you today? You are at ${machine.location.address ? machine.location.address : ''}.`,
+                message: `Hi, welcome to Atlas Customer Service.\n How may I help you today?\n\n You are at \n${machine.location.address ? machine.location.address : ''}.`,
                 trigger: 'serviceOptions',
             },
             {
