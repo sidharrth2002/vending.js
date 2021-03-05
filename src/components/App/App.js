@@ -7,6 +7,7 @@ import './App.css';
 import 'antd/dist/antd.css'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
+import CustomerService from '../CustomerService/CustomerService';
 
 class App extends React.Component {
   constructor(props) {
@@ -36,6 +37,7 @@ class App extends React.Component {
           <Route exact path='/login'>
             <Login />
           </Route>
+          <Route exact path='/customerservice/:id' component={CustomerService} />
           <ProtectedRoute exact path='/dashboard' component={Dashboard} />
         </Switch>
       </div>
