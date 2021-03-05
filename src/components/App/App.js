@@ -6,7 +6,7 @@ import Dashboard from '../Dashboard/Dashboard';
 import './App.css';
 import 'antd/dist/antd.css'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { LOGOUT } from './../../features/counter/authSlice';
+import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -22,13 +22,14 @@ class App extends React.Component {
   };
 
   render() {
+    const user = selectIsAuthenticated(selectUser);
     const { collapse, collapsed } = this.state
     return (
       <Switch>
         <Route exact path='/login'>
           <Login />
         </Route>
-        <ProtectedRoute exact path='/dashboard' component={Dashboard} /> 
+        <ProtectedRoute exact path='/dashboard' component={ user ? Dashboard : Login} />
       </Switch>
       );
   }

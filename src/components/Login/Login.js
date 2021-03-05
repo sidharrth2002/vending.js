@@ -7,6 +7,7 @@ import { LOGIN } from './../../features/counter/authSlice';
 import axios from 'axios'
 import './Login.css'
 import { Redirect } from 'react-router';
+import { useHistory } from "react-router-dom";
 
 import vendingSVG from '../../images/teamwork.png';
 
@@ -43,6 +44,9 @@ export default function Login(props){
       })
       )
       console.log('dispatch success')
+      return <Redirect to={"/dashboard"} />
+      /* let history = useHistory();
+      history.push('/dashboard') */
     })
     .catch((err) => {
       console.log(err);
@@ -53,7 +57,7 @@ export default function Login(props){
     <div className="main-wrapper">
       <div className = "login-wrapper">
       <div className = "left-section">
-        <img src={vendingSVG} alt="logo" height="400px" width="300px" />
+        <img src={vendingSVG} alt="logo" height="300px" width="325px" />
       </div>
       <div className = "right-section">
           <div className="title-block"> 
