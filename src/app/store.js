@@ -1,8 +1,13 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from '../features/counter/counterSlice';
+import { getDefaultMiddleware, configureStore } from '@reduxjs/toolkit';
+import authReducer from '../features/counter/authSlice';
+import { routerReducer } from 'react-router-redux';
 
 export default configureStore({
   reducer: {
-    counter: counterReducer,
+    routing: routerReducer,
+    auth: authReducer,    
   },
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+  }),
 });
