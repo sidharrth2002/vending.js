@@ -17,10 +17,12 @@ export const authSlice = createSlice({
   },
   reducers: {
     LOGIN: (state, action) => {
+      console.log(action.payload.access_token.tokens.access.token);
       cookie.set('access_token', action.payload.access_token.tokens.access.token);
       cookie.set('user', action.payload.access_token.user);
       state.user = action.payload.access_token.user;
       state.token = action.payload.access_token.tokens.access.token;
+      // state.refreshToken = action.payload.access_token.token.refresh.token;
       state.isAuthenticated = true;
     },
     LOGOUT: (state) => {

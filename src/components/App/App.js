@@ -29,7 +29,7 @@ class App extends React.Component {
         <Route exact path='/login'>
           <Login />
         </Route>
-        <ProtectedRoute exact path='/dashboard' component={ user ? Dashboard : Login} />
+        <ProtectedRoute exact path='/dashboard' component={Dashboard} />
       </Switch>
       );
   }

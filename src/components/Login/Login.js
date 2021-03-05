@@ -25,11 +25,11 @@ const formItemLayout =
   wrapperCol: { span: 16 },
 }
 
-
 export default function Login(props){
   const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
+  const [redirect, setRedirect] = useState(false);
   async function handleSubmit(e){
     e.preventDefault()
     await axios.post('http://localhost:5000/v1/auth/login', {
@@ -44,7 +44,9 @@ export default function Login(props){
       })
       )
       console.log('dispatch success')
-      return <Redirect to={"/dashboard"} />
+      setRedirect(true);
+      // props.history.push('/dashboard');
+      // return <Redirect to={"/dashboard"} />
       /* let history = useHistory();
       history.push('/dashboard') */
     })
@@ -53,6 +55,9 @@ export default function Login(props){
     })
   }
 
+  if(redirect) {
+    return <Redirect to='/dashboard' />
+  } else {
   return (
     <div className="main-wrapper">
       <div className = "login-wrapper">
@@ -90,4 +95,5 @@ export default function Login(props){
     </div>
     </div>
   );
+  }
 }

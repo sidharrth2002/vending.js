@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Layout, Menu, Breadcrumb } from 'antd';
 import {
   DesktopOutlined,
@@ -8,13 +8,30 @@ import {
   FileOutlined,
   TeamOutlined,
   UserOutlined,
+  LogoutOutlined
 } from '@ant-design/icons';
+import { LOGOUT } from '../../features/counter/authSlice';
+import axios from 'axios';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
 
-const Dashboard = () => {
+const Dashboard = (props) => {
     const user = useSelector(state => state.auth.user)
     const [collapsed, setCollapsed] = useState(false)
+    const dispatch = useDispatch();
+    const refreshToken = useSelector(state => state.auth.refreshToken);
+    console.log(refreshToken);
+    const logout = () => {
+        // axios.post('http://localhost:5000/v1/auth/logout', {
+        //     refreshToken: refreshToken
+        // })
+        // .then(response => {
+        //     if(response.status == 200) {
+        //         dispatch(LOGOUT());
+        //     }
+        // })
+        dispatch(LOGOUT());
+    }
 
     return (
         <Layout style={{ minHeight: '100vh' }}>
@@ -29,8 +46,11 @@ const Dashboard = () => {
               <Menu.Item key="2" icon={<DesktopOutlined />}>
                 Technicians
               </Menu.Item>
-              <Menu.Item key="9" icon={<FileOutlined />}>
+              <Menu.Item key="3" icon={<FileOutlined />}>
                 Appointments
+              </Menu.Item>
+              <Menu.Item key="4" icon={<LogoutOutlined />} onClick={() => logout()}>
+                  Logout
               </Menu.Item>
             </Menu>
           </Sider>
