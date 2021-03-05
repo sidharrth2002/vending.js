@@ -7,16 +7,6 @@ import './App.css';
 import 'antd/dist/antd.css'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { LOGOUT } from './../../features/counter/authSlice';
-import { Layout, Menu, Breadcrumb } from 'antd';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from '@ant-design/icons';
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
 class App extends React.Component {
   constructor(props) {
     super(props);
