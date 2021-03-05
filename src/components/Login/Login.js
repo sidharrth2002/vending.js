@@ -8,7 +8,7 @@ import axios from 'axios'
 import './Login.css'
 import { Redirect } from 'react-router';
 
-import vendingSVG from '../../images/vending-machine.svg';
+import vendingSVG from '../../images/teamwork.png';
 
 const layout = {
   labelCol: { span: 8 },
@@ -53,7 +53,7 @@ export default function Login(props){
     <div className="main-wrapper">
       <div className = "login-wrapper">
       <div className = "left-section">
-        <img src={vendingSVG} alt="logo" height="300px" width="300px" />
+        <img src={vendingSVG} alt="logo" height="400px" width="300px" />
       </div>
       <div className = "right-section">
           <div className="title-block"> 
