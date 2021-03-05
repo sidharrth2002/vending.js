@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState, useEffect } from 'react';
 import {
     DesktopOutlined,
     PieChartOutlined,
@@ -13,7 +14,7 @@ import { Layout, Menu, Breadcrumb, Table, Col, Row, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 const { Header, Content, Footer, Sider } = Layout;
 
-const Navbar = () => {
+const Navbar = ({ table1, table2, table3 }) => {
 
     const dispatch = useDispatch();
 
@@ -25,16 +26,16 @@ const Navbar = () => {
     return (
         <Header>
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="horizontal">
-            <Menu.Item key="1" icon={<PieChartOutlined />}>
+            <Menu.Item key="1" onClick={() => table1(true) } icon={<PieChartOutlined />}>
                 Complaints
             </Menu.Item>
-            <Menu.Item key="2" icon={<DesktopOutlined />}>
+            <Menu.Item key="2" onClick={() => table2(true) } icon={<DesktopOutlined />}>
                 Technicians
             </Menu.Item>
-            <Menu.Item key="3" icon={<FileOutlined />}>
+            <Menu.Item key="3" onClick={() => table3(true) } icon={<FileOutlined />}>
                 Appointments
             </Menu.Item>
-            <Button danger onClick={(e) => logout()}>Default</Button>
+            <Button danger onClick={(e) => logout()}>Log Out</Button>
             </Menu>
         </Header>
     );
