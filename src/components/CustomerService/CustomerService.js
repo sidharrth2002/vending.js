@@ -71,8 +71,8 @@ const CustomerService = props => {
 
     return (
     <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center'}}>
-        {loading ? 
-        'Loading...'    
+        {loading ?
+        'Loading...'  
         :
       <ChatBot
             steps={[
