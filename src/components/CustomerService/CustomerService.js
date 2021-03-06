@@ -10,19 +10,20 @@ class Review extends Component {
     this.state = {
       refuelItemInput: 0,
       serviceOptions: 0,
-      moneyGoneRemarksInput: 0
+      moneyGoneRemarksInput: 0,
+      urgencyInput: 0
     };
   }
 
   componentWillMount() {
     const { steps } = this.props;
-    const { repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
+    const { urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
 
-    this.setState({ repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput });
+    this.setState({ urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput });
   }
 
   render() {
-    const { repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput  } = this.state;
+    const { urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput  } = this.state;
 
     return (
       <div style={{ width: '100%' }}>
@@ -36,6 +37,10 @@ class Review extends Component {
             <tr>
             { serviceOptions ? `<td>`+`Service Types Chosen : `+`</td>`+`
               <td>`+`${serviceOptions.value}`+`</td>` : "" }
+            </tr>
+            <tr>
+            { urgencyInput ? `<td>`+`Urgency : `+`</td>`+`
+              <td>`+`${urgencyInput.value}`+`</td>` : "" }
             </tr>
             <tr>
             { moneyGoneRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
@@ -97,7 +102,7 @@ const CustomerService = props => {
             {
                 id: 'refuelItemInput',
                 user: true,
-                trigger: 'summary'
+                trigger: 'urgency'
             },
             {
                 id: 'repairRemarks',
@@ -108,7 +113,7 @@ const CustomerService = props => {
 
               id: "repairRemarksInput",
               user: true,
-              trigger: "summary"
+              trigger: "urgency"
 
             },
             {
@@ -120,7 +125,24 @@ const CustomerService = props => {
 
               id: "moneyGoneRemarksInput",
               user: true,
-              trigger: "summary"
+              trigger: "urgency"
+
+            },
+            {
+
+              id: "urgency",
+              message: "How urgent is it ?",
+              trigger: "urgencyInput"
+
+            },
+            {
+
+              id: "urgencyInput",
+              options: [
+                    { value: 'Very Critical', label: 'Very Critical', trigger: 'summary' },
+                    { value: 'Critical', label: 'Critical', trigger: 'summary' },
+                    { value: 'Normal', label: 'Normal', trigger: 'summary' }
+                ]
 
             },
             {

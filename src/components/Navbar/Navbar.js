@@ -29,10 +29,10 @@ const Navbar = ({ table1, table2, table3 }) => {
             <Menu.Item key="1" onClick={() => table1(true) } icon={<PieChartOutlined />}>
                 Complaints
             </Menu.Item>
-            <Menu.Item key="2" onClick={() => table2(true) } icon={<DesktopOutlined />}>
+            <Menu.Item key="2" onClick={() => table3(true) } icon={<DesktopOutlined />}>
                 Technicians
             </Menu.Item>
-            <Menu.Item key="3" onClick={() => table3(true) } icon={<FileOutlined />}>
+            <Menu.Item key="3" onClick={() => table2(true) } icon={<FileOutlined />}>
                 Appointments
             </Menu.Item>
             <Button danger onClick={(e) => logout()}>Log Out</Button>
