@@ -35,7 +35,7 @@ const Dashboard = (props) => {
       {
         title: 'Title',
         dataIndex: 'title',
-        width: 150,
+        width: 450,
       },
       {
         title: 'Date Created',
@@ -55,9 +55,9 @@ const Dashboard = (props) => {
 
     const columns2 = [
       {
-        title: 'Vending Machine Id',
+        title: 'Vending Machine Address',
         dataIndex: 'vmId',
-        width: 150,
+        width: 350,
       },
       {
         title: 'Technicians',
@@ -76,6 +76,11 @@ const Dashboard = (props) => {
       {
         title: 'Deadline',
         dataIndex: 'deadline',
+        width: 150,
+      },
+      {
+        title: 'Status',
+        dataIndex: 'status',
         width: 150,
       }
     ];
@@ -111,6 +116,7 @@ const Dashboard = (props) => {
             date: entry.createdAt,
             title: entry.body,
             remarks: entry.remarks,
+            urgency: entry.urgency
           }))
         }}
       )
@@ -123,19 +129,22 @@ const Dashboard = (props) => {
       }
       })
       .then((res) => {
+        //console.log(res)
         if(res.status == 200) {
           let i = 0;
           return res.data.map(entry => ({
             key: i++,
-            vmId: entry.vendingMachine,
-            technicians: entry.technician,
+            vmId: entry.vendingMachine.location.address,
+            technicians: entry.technician.name,
             servtype: entry.serviceType,
             remarks: entry.remarks,
-            deadline: entry.deadline
+            deadline: entry.deadline,
+            status: entry.status
           }))
         }}
       )
       .then(allentries => {
+        //console.log(allentries)
         setData1(allentries);
       })
 
@@ -155,7 +164,6 @@ const Dashboard = (props) => {
         }}
       )
       .then(allentries => {
-        console.log(allentries)
         setData2(allentries);
       })
 

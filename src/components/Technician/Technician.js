@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Table, Modal, Radio } from 'antd';
+import { Layout, Menu, Breadcrumb, Table, Modal, Radio, Button } from 'antd';
 import {
   DesktopOutlined,
   PieChartOutlined,
@@ -23,6 +23,7 @@ const Technician = props => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [appointId, setAppointId] = useState(0);
     const [status, setStatus] = useState();
+    const [loading, setLoading] = useState(false);
 
     const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
@@ -41,7 +42,6 @@ const Technician = props => {
     console.log(`access token ` + accessToken)
 
     const handleOk = () => {
-      setIsModalVisible(false);
       console.log(`this is from state` + status)
 
       let config = {
@@ -169,8 +169,8 @@ const Technician = props => {
               <Breadcrumb.Item>User</Breadcrumb.Item>
               <Breadcrumb.Item>Complaint</Breadcrumb.Item>
             </Breadcrumb>
-            <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-              <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 450 }} />
+            <div className="site-layout-background" style={{ padding: 24, minHeight: 400 }}>
+              <Table columns={columns} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
@@ -184,6 +184,7 @@ const Technician = props => {
             value={options.value}
             optionType="button"
         />
+        <br></br>
       </Modal>
 
     </React.Fragment> 
