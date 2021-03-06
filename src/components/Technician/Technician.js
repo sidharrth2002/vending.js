@@ -82,13 +82,23 @@ const Technician = props => {
           width: 200,
         },
         {
+          title: 'Complaint Id',
+          dataIndex: 'CId',
+          width: 200,
+        },
+        {
+          title: 'Technicians Id',
+          dataIndex: 'techniciansId',
+          width: 150,
+        },
+        {
           title: 'Vending Id',
           dataIndex: 'vmId',
           width: 200,
         },
         {
           title: 'Technicians',
-          dataIndex: 'technicians',
+          dataIndex: 'techniciansid',
           width: 150,
         },
         {
@@ -210,7 +220,9 @@ const Technician = props => {
                   key: entry._id,
                   AId: entry._id,
                   vmId: entry.vendingMachine._id,
+                  CId: entry.complaint,
                   technicians: entry.technician.name,
+                  techniciansId: entry.technician.id,
                   servtype: entry.serviceType,
                   remarks: entry.remarks,
                   deadline: entry.deadline,
@@ -255,7 +267,7 @@ const Technician = props => {
               status: entry.status
             })) */
 
-
+            console.log(res.data)
 
             return res.data.map(function(entry, i){
 
@@ -269,7 +281,8 @@ const Technician = props => {
                   servtype: entry.serviceType,
                   remarks: entry.remarks,
                   deadline: entry.deadline,
-                  status: entry.status}
+                  status: entry.status
+                }
 
               }else{
 
@@ -330,8 +343,11 @@ const Technician = props => {
 
     const decline = (record) => {
       console.log(record)
-/*       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
+      axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
         appointmentID: record.AId
+/*         vendingMachineID: record.vmId,
+        technicianExclude: record.techniciansId,
+        complaintId: record.CId, */
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`
@@ -339,12 +355,32 @@ const Technician = props => {
       })
       .then((res) => {
         if(res.status == 200){
-          console.log('delete')
-          window.location.reload(true);
+
+          axios.post(`${process.env.REACT_APP_API_URL}/v1/complaint/${record.CId}`, {
+
+            id: record.CId,
+            newStatus: "Unsolved"
+
+          }, {
+            headers: {
+              Authorization: `Bearer ${accessToken}`
+            }
+          })
+          .then((res) =>{
+
+            if(res.status == 200){
+
+              console.log('Delete and replaced')
+              window.location.reload(true);
+
+            }
+
+          })
+
         }else{
-          console.log('Cannot Delete')
+          console.log('Failed Delete')
         }
-      }) */
+      })
     }
 
     return (
