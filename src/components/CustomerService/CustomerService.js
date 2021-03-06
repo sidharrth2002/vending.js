@@ -2,6 +2,71 @@ import React, { Component, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
+import { Button } from 'antd';
+
+function postReq (props) {
+
+  console.log(props)
+  let id = props.id
+  console.log(id)
+  const { steps } = props;
+  const { refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
+  let data = {}
+  let remarks = ""
+
+  if(moneyGoneRemarksInput){
+
+    remarks = moneyGoneRemarksInput.value
+
+  }else if(repairRemarksInput){
+
+    remarks = repairRemarksInput.value
+
+  }
+
+  if(refuelItemInput){
+
+    data = {
+
+      vendingMachine: id,
+      serviceType: serviceOptions.value,
+      urgency: urgencyInput.value,
+      body: refuelItemRemarksInput.value,
+      itemsToRefill: refuelItemInput.value
+
+    }
+
+  }else{
+
+    data = {
+
+      vendingMachine: id,
+      serviceType: serviceOptions.value,
+      urgency: urgencyInput.value,
+      body: remarks,
+
+    }
+    
+  }
+
+  console.log(data)
+
+  axios.post(`${process.env.REACT_APP_API_URL}/v1/complaint`, data)
+  .then((res) =>{
+
+    if(res.status == 200){
+
+      console.log("Post Succeed")
+
+    }else{
+
+      console.log("Post Not Send")
+
+    }
+
+  })
+
+}
 
 class Review extends Component {
   constructor(props) {
@@ -15,21 +80,23 @@ class Review extends Component {
     };
   }
 
+
   componentWillMount() {
     const { steps } = this.props;
-    const { urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
+    const { refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
 
-    this.setState({ urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput });
+    this.setState({ refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput });
   }
 
   render() {
-    const { urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput  } = this.state;
+    const { refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput  } = this.state;
 
     return (
       <div style={{ width: '100%' }}>
         <h3>Summary</h3>
         <table>
           <tbody>
+          
             <tr>
               { refuelItemInput ? `<td>`+`Refueling Items : `+`</td>`+`
               <td>`+`${refuelItemInput.value}`+`</td>` : "" }
@@ -50,6 +117,18 @@ class Review extends Component {
               { repairRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
               <td>`+`${repairRemarksInput.value}`+`</td>` : "" }
             </tr>
+            <tr>
+              { refuelItemRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
+              <td>`+`${refuelItemRemarksInput.value}`+`</td>` : "" }
+            </tr>
+
+            <br></br>
+
+            <tr>
+
+              <Button onClick={ () => {postReq(this.props)} } type="dashed">Submit Complaint</Button>
+
+            </tr>
           </tbody>
         </table>
       </div>
@@ -58,6 +137,7 @@ class Review extends Component {
 }
 
 const CustomerService = props => {
+
     const [machine, setMachine] = useState({});
     const [loading, setLoading] = useState(true);
 
@@ -75,7 +155,7 @@ const CustomerService = props => {
     }, [props.match.params.id])
 
     return (
-    <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center'}}>
+    <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', minWidth: '450px !important'}}>
         {loading ?
         'Loading...'  
         :
@@ -89,9 +169,9 @@ const CustomerService = props => {
             {
                 id: 'serviceOptions',
                 options: [
-                    { value: 'Refueling', label: 'Refueling', trigger: 'refuelItem' },
+                    { value: 'Refuelling', label: 'Refueling', trigger: 'refuelItem' },
                     { value: 'Repair', label: 'Repair', trigger: 'repairRemarks' },
-                    { value: 'The Vending Machine Ate My Money 😞', label: 'moneyGone', trigger: 'moneyGoneRemarks' }
+                    { value: 'General', label: 'The Vending Machine Ate My Money 😞', trigger: 'moneyGoneRemarks' }
                 ]
             },
             {
@@ -102,7 +182,21 @@ const CustomerService = props => {
             {
                 id: 'refuelItemInput',
                 user: true,
-                trigger: 'urgency'
+                trigger: 'refuelItemRemarks'
+            },
+            {
+
+              id: 'refuelItemRemarks',
+              message: "Any remarks on this?",
+              trigger: 'refuelItemRemarksInput'
+
+            },
+            {
+
+              id: 'refuelItemRemarksInput',
+              user: true,
+              trigger: 'urgency'
+
             },
             {
                 id: 'repairRemarks',
@@ -147,7 +241,7 @@ const CustomerService = props => {
             },
             {
               id: 'summary',
-              component: <Review />,
+              component: <Review id = {props.match.params.id}/>,
               asMessage: true,
             },
             //   {
