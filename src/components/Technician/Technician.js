@@ -329,8 +329,8 @@ const Technician = props => {
     }
 
     const decline = (record) => {
-      console.log(record.AId)
-      axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
+      console.log(record)
+/*       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
         appointmentID: record.AId
       }, {
         headers: {
@@ -344,7 +344,7 @@ const Technician = props => {
         }else{
           console.log('Cannot Delete')
         }
-      })
+      }) */
     }
 
     return (

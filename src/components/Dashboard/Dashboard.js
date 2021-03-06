@@ -36,11 +36,6 @@ const Dashboard = (props) => {
 
     const columns1 = [
       {
-        title: 'Title',
-        dataIndex: 'title',
-        width: 450,
-      },
-      {
         title: 'Date Created',
         dataIndex: 'date',
         width: 150,
@@ -50,10 +45,25 @@ const Dashboard = (props) => {
         dataIndex: 'remarks',
       },
       {
+
+        title: 'serviceType',
+        dataIndex: 'serviceType',
+        width: 150,
+
+      },
+      {
         title: 'Urgency',
         dataIndex: 'urgency',
         width: 150,
-      }
+      },
+      {
+        title: "Deal With It",
+        dataIndex: "button",
+        render: (text, record) => (
+          <Button type="primary" onClick={ ()=> deal(record) }>Deal</Button>
+         ),
+        width: 150,
+      },
     ];
 
     const columns2 = [
@@ -112,18 +122,47 @@ const Dashboard = (props) => {
       }
       })
       .then((res) => {
+        console.log(res.data)
         if(res.status == 200) {
-          let i = 0;
-          return res.data.map(entry => ({
+/*           return res.data.map(entry => ({
             key: i++,
             date: moment(entry.createdAt).format("MM-DD-YYYY HH:mm"),
-            title: entry.body,
-            remarks: entry.remarks,
-            urgency: entry.urgency
-          }))
+            remarks: entry.body,
+            urgency: entry.urgency,
+            vendingMachine: entry.vendingMachine,
+            serviceType: entry.serviceType
+          })) */
+
+          return res.data.map(function(entry, i){
+
+            if(entry.status == "Unsolved"){
+
+              return {
+                key: entry._id,
+                date: moment(entry.createdAt).format("MM-DD-YYYY HH:mm"),
+                remarks: entry.body,
+                urgency: entry.urgency,
+                vendingMachine: entry.vendingMachine,
+                serviceType: entry.serviceType
+              }
+
+            }else{
+
+              return null;
+
+            }
+
+          })
+
         }}
       )
       .then(allentries => {
+
+        for (var propName in allentries) {
+          if (allentries[propName] === null || allentries[propName] === undefined) {
+            delete allentries[propName];
+          }
+        }
         setData(allentries);
       })
 
@@ -206,24 +245,41 @@ const Dashboard = (props) => {
 
     const deal = (record) => {
 
+      console.log(record.key)
+
       let config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         }
       }
-
       let data = {
-
-        vendingMachineId : record.vmId,
-        
-
+        vendingMachineID : record.vendingMachine,
+        serviceType: record.serviceType,
+        complaintId: record.key
       }
+
+      console.log(data)
+
+      axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
+      .then( (res) => {
+
+        if(res.status == 200){
+
+          console.log("Appointment Made")
+          window.location.reload(true);
+
+        }else{
+
+          console.log("Appointment Not Made")
+
+        }
+
+      })
 
     }
 
     const handleOk = () => {
       console.log(`this is from state` + status)
-
       let config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
