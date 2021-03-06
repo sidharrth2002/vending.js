@@ -58,7 +58,7 @@ const CustomerService = props => {
 
     useEffect(() => {
         let id = props.match.params.id;
-        axios.post(`http://localhost:5000/v1/vendingmachines/${id}`, {
+        axios.post(`${process.env.REACT_APP_API_URL}/v1/vendingmachines/${id}`, {
             dummyAuth: 'corneliuspang'
         })
         .then(response => {

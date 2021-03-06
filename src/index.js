@@ -11,7 +11,9 @@ import { syncHistoryWithStore } from 'react-router-redux';
 import axios from "axios"
 import './index.css';
 
-axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+require('dotenv').config()
+
+// axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 const history = createHistory()
 // const history = syncHistoryWithStore(browserHistory, store);

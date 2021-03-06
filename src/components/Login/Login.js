@@ -32,7 +32,7 @@ export default function Login(props){
   const [redirect, setRedirect] = useState(false);
   async function handleSubmit(e){
     e.preventDefault()
-    await axios.post('http://localhost:5000/v1/auth/login', {
+    await axios.post(`${process.env.REACT_APP_API_URL}/v1/auth/login`, {
       email: email, 
       password: password
     })

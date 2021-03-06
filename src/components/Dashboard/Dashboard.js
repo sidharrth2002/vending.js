@@ -99,8 +99,7 @@ const Dashboard = (props) => {
     ]
 
     useEffect(() => {
-
-      axios.get('http://localhost:5000/v1/complaint', {
+      axios.get(`${process.env.REACT_APP_API_URL}/v1/complaint`, {
         headers: { Authorization: `Bearer ${accessToken}` 
       }
       })
@@ -119,7 +118,7 @@ const Dashboard = (props) => {
         setData(allentries);
       })
 
-      axios.get('http://localhost:5000/v1/appointment', {
+      axios.get(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
         headers: { Authorization: `Bearer ${accessToken}` 
       }
       })
@@ -140,7 +139,7 @@ const Dashboard = (props) => {
         setData1(allentries);
       })
 
-      axios.get('http://localhost:5000/v1/users', {
+      axios.get(`${process.env.REACT_APP_API_URL}/v1/users`, {
         headers: { Authorization: `Bearer ${accessToken}` 
       }
       })
