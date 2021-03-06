@@ -106,6 +106,13 @@ export default function Login(props){
             </Button>
           </Form.Item>
         </Form>
+
+        <div className="footer">
+
+          <p></p>
+
+        </div>
+
       </div>
     </div>
     </div>
