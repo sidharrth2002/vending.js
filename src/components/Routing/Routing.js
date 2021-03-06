@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 
 const Routing = props => {
     const user = useSelector(state => state.auth.user)
+    const [imageURL, setURL] = useState('')
 
     useEffect(() => {
         console.log(user)
@@ -15,13 +16,14 @@ const Routing = props => {
         .then(response => {
             if(response.status == 200) {
                 console.log(response.data);
+                setURL(response.data);
             }
         })
     }, [])
 
     return (
         <div>
-            sfsdssf
+            <img src={{}}
         </div>
     );
 };
