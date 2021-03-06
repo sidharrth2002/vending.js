@@ -6,8 +6,10 @@ import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Map from '../Map/Map'
 import './Dashboard.css'
-const { Content, Footer  } = Layout;
+import moment from 'moment';
 
+const { Content, Footer  } = Layout;
+moment().format(); 
 const Dashboard = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const [data, setData] = useState([]);
@@ -79,7 +81,7 @@ const Dashboard = (props) => {
 
     const columns3 = [
       {
-        title: 'User Id',
+        title: 'No.',
         dataIndex: 'user',
         width: 150,
       },
@@ -105,7 +107,7 @@ const Dashboard = (props) => {
           let i = 0;
           return res.data.map(entry => ({
             key: i++,
-            date: entry.createdAt,
+            date: moment(entry.createdAt).format("MM-DD-YYYY HH:mm"),
             title: entry.body,
             remarks: entry.remarks,
             urgency: entry.urgency
@@ -130,7 +132,7 @@ const Dashboard = (props) => {
             technicians: entry.technician.name,
             servtype: entry.serviceType,
             remarks: entry.remarks,
-            deadline: entry.deadline,
+            deadline: moment(entry.deadline).format("MM-DD-YYYY HH:mm"),
             status: entry.status
           }))
         }}
@@ -149,7 +151,7 @@ const Dashboard = (props) => {
           let i = 0;
           return res.data.results.map(entry => ({
             key: i++,
-            user: entry.id,
+            user: i,
             name: entry.name,
             email: entry.email
           }))
