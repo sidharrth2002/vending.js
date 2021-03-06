@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Input, Button, Row, Col, Card, Checkbox } from 'antd';
+import { Form, Input, Button, Row, Col, Card, Checkbox, Alert } from 'antd';
 import { UserOutlined, HeartOutlined, PhoneOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { LOGIN } from './../../features/counter/authSlice';
@@ -29,7 +29,9 @@ export default function Login(props){
   const dispatch = useDispatch();
   const [email, setEmail] = useState();
   const [password, setPassword] = useState();
-  const [redirect, setRedirect] = useState(false);
+  const [redirectAdmin, setRedirectAdmin] = useState(false);
+  const [redirectTech, setRedirectTech] = useState(false);
+  const [error, showError] = useState(false);
   async function handleSubmit(e){
     e.preventDefault()
     await axios.post(`${process.env.REACT_APP_API_URL}/v1/auth/login`, {
@@ -37,27 +39,34 @@ export default function Login(props){
       password: password
     })
     .then(function (res){
-      console.log(res)
-      dispatch(
-        LOGIN({
-          access_token : res.data
-      })
-      )
-      console.log('dispatch success')
-      setRedirect(true);
-      // props.history.push('/dashboard');
-      // return <Redirect to={"/dashboard"} />
-      /* let history = useHistory();
-      history.push('/dashboard') */
+      if(res.status == 200) {
+        console.log(res)
+        dispatch(
+          LOGIN({
+            access_token : res.data
+        })
+        )
+        console.log('dispatch success')
+        if(res.data.user.role == 'user') {
+          setRedirectTech(true);
+        } else if(res.data.user.role == 'admin') {
+          setRedirectAdmin(true);
+        }  
+      } else {
+        showError('Wrong email/password');
+      }
     })
     .catch((err) => {
       console.log(err);
     })
   }
 
-  if(redirect) {
+  if(redirectAdmin) {
     return <Redirect to='/dashboard' />
-  } else {
+  } else if(redirectTech) {
+    return <Redirect to='/technician' />
+  }
+  else {
   return (
     <div className="main-wrapper">
       <div className = "login-wrapper">
@@ -75,6 +84,12 @@ export default function Login(props){
           className = "form"
           onSubmit = {(e) => handleSubmit(e)}
         >
+          {
+            error ?
+            <Alert message="Wrong Credentials" type="error" />
+            :
+            ''
+          }
           <Form.Item name="email" rules={[{ required: true, message: 'Please input your email!' }]}>
             <Input placeholder="Email Input" value = {email} onChange = {(e) => setEmail(e.target.value)}/>
           </Form.Item>

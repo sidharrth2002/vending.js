@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import ProtectedRoute from '../ProtectedRoute';
 import Login from '../Login/Login';
 import Dashboard from '../Dashboard/Dashboard';
+import Technician from '../Technician/Technician';
 import './App.css';
 import 'antd/dist/antd.css'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
@@ -39,6 +40,7 @@ class App extends React.Component {
           </Route>
           <Route exact path='/customerservice/:id' component={CustomerService} />
           <ProtectedRoute exact path='/dashboard' component={Dashboard} />
+          <ProtectedRoute exact path='/technician' component={Technician} />
         </Switch>
       </div>
       );
