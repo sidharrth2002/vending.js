@@ -1,16 +1,14 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
     HeatMapOutlined
   } from '@ant-design/icons';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
-import { Layout, Menu, Breadcrumb, Table, Col, Row, Button } from 'antd';
+import { LOGOUT } from './../../features/counter/authSlice';
+import { Layout, Menu, Button } from 'antd';
 import { useDispatch } from 'react-redux';
-const { Header, Content, Footer, Sider } = Layout;
+const { Header } = Layout;
 
 const Navbar = ({ table1, table2, table3, showMap }) => {
 
@@ -36,7 +34,7 @@ const Navbar = ({ table1, table2, table3, showMap }) => {
             <Menu.Item key="4" onClick={() => showMap(true)} icon={<HeatMapOutlined />}>
                 Realtime Map
             </Menu.Item>
-            <Button danger onClick={(e) => logout()}>Log Out</Button>
+            <Button style={{marginLeft: '30px'}} danger onClick={(e) => logout()}>Log Out</Button>
             </Menu>
         </Header>
     );

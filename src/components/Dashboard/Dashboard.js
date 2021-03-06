@@ -199,9 +199,9 @@ const Dashboard = (props) => {
               <Breadcrumb.Item>Complaint</Breadcrumb.Item>
             </Breadcrumb>
             <div className="site-layout-background" style={{ padding: 24, minHeight: 360 }}>
-              <Table style={ table1 ? { display: 'block' } : { display: 'none' } } columns={columns1} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
-              <Table style={ table2 ? { display: 'block' } : { display: 'none' } } columns={columns2} dataSource={data1} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
-              <Table style={ table3 ? { display: 'block' } : { display: 'none' } } columns={columns3} dataSource={data2} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
+              <Table style={ table1 ? { display: 'block' } : { display: 'none' } } columns={columns1} dataSource={data} pagination={{ pageSize: 5 }} scroll={{ y: 350 }} />
+              <Table style={ table2 ? { display: 'block' } : { display: 'none' } } columns={columns2} dataSource={data1} pagination={{ pageSize: 5 }} scroll={{ y: 350 }} />
+              <Table style={ table3 ? { display: 'block' } : { display: 'none' } } columns={columns3} dataSource={data2} pagination={{ pageSize: 5 }} scroll={{ y: 350 }} />
               {map ?
                 <Map />
                 :
@@ -209,7 +209,12 @@ const Dashboard = (props) => {
               }
             </div>
           </Content>
-          <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>
+          <Footer style={{ textAlign: 'center', margin: '0px' }}>
+            <span>Built with ❤️ by Sid, Shaun and Cornelius<br/></span>
+            <span>All Rights Reserved<br/></span>
+            <span>Vending.js powered by Node.js, React.js, MongoDB and distancematrix.ai<br/></span>
+            Ant Design ©2018 Created by Ant UED
+          </Footer>
         </Layout>
       </Layout>   
     </React.Fragment> 
