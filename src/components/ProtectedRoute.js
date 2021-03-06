@@ -1,7 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { LOGOUT } from '../features/counter/authSlice';
 
 class ProtectedRoute extends React.Component {

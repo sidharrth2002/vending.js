@@ -1,18 +1,11 @@
 import React from 'react';
-import { useState, useEffect } from 'react';
 import {
-    DesktopOutlined,
     PieChartOutlined,
-    FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-    LogoutOutlined
   } from '@ant-design/icons';
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
-import { Layout, Menu, Breadcrumb, Table, Col, Row, Button } from 'antd';
+import { LOGOUT } from './../../features/counter/authSlice';
+import { Layout, Menu, Button } from 'antd';
 import { useDispatch } from 'react-redux';
-const { Header, Content, Footer, Sider } = Layout;
+const { Header } = Layout;
 
 const Navbar = () => {
 

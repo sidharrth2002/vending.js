@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table } from 'antd';
+import { Layout, Breadcrumb, Table, Modal, Radio, Button} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Map from '../Map/Map'
@@ -19,11 +19,20 @@ const Dashboard = (props) => {
     const [table2, setTable2] = useState(false);
     const [table3, setTable3] = useState(false);
     const [map, showMap] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [appointId, setAppointId] = useState(0);
+    const [status, setStatus] = useState();
 
     const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
     const accessToken = useSelector(state => state.auth.token);
     const refreshToken = useSelector(state => state.auth.refreshToken);
+
+    const options = [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Ongoing', value: 'Ongoing' },
+      { label: 'Completed', value: 'Completed' },
+    ];
 
     const columns1 = [
       {
@@ -190,6 +199,62 @@ const Dashboard = (props) => {
       setTable3(false)
     }
 
+    const showModal = (record) => {
+      setIsModalVisible(true);
+      setAppointId(record.vmId)
+    };
+
+    const deal = (record) => {
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+
+      let data = {
+
+        vendingMachineId : record.vmId,
+        
+
+      }
+
+    }
+
+    const handleOk = () => {
+      console.log(`this is from state` + status)
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+
+      let data = {
+
+        status: status
+
+      }
+
+      axios.patch(`${process.env.REACT_APP_API_URL}/v1/appointment/${appointId}`, data, config )
+      .then((res) => {
+
+        if(res.status == 200){
+
+          console.log('Updated')
+          setIsModalVisible(false);
+          window.location.reload(true);
+
+        }else{
+
+          console.log('Cannot Update')
+          setIsModalVisible(false);
+
+        }
+
+      })
+    };
+
   return (     
     <React.Fragment> 
       <Navbar table1={table1Setter} table2={table2Setter} table3={table3Setter} showMap={mapShow}/>
@@ -219,6 +284,7 @@ const Dashboard = (props) => {
           </Footer>
         </Layout>
       </Layout>   
+
     </React.Fragment> 
 
   );
