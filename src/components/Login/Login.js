@@ -1,13 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Input, Button, Row, Col, Card, Checkbox, Alert } from 'antd';
-import { UserOutlined, HeartOutlined, PhoneOutlined } from '@ant-design/icons';
+import { Form, Input, Button, Checkbox, Alert } from 'antd';
 import { useState } from 'react';
 import { LOGIN } from './../../features/counter/authSlice';
 import axios from 'axios'
 import './Login.css'
 import { Redirect } from 'react-router';
-import { useHistory } from "react-router-dom";
 
 import vendingSVG from '../../images/teamwork.png';
 

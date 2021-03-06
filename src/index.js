@@ -7,8 +7,6 @@ import { BrowserRouter } from 'react-router-dom';
 import store from './app/store';
 import { Provider } from 'react-redux';
 import * as serviceWorker from './serviceWorker';
-import { syncHistoryWithStore } from 'react-router-redux';
-import axios from "axios"
 import './index.css';
 
 require('dotenv').config()

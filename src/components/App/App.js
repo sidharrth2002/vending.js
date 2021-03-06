@@ -6,8 +6,8 @@ import Dashboard from '../Dashboard/Dashboard';
 import Technician from '../Technician/Technician';
 import './App.css';
 import 'antd/dist/antd.css'
-import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
-import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import { LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
 import CustomerService from '../CustomerService/CustomerService';
 
 class App extends React.Component {

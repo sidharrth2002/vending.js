@@ -2,20 +2,10 @@ import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Layout, Menu, Breadcrumb, Table, Modal, Radio, Button } from 'antd';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-  LogoutOutlined
-} from '@ant-design/icons';
-import { LOGOUT } from '../../features/counter/authSlice';
 import axios from 'axios';
 import Navbar from '../Navbar/TechNav'
 import '../Dashboard/Dashboard.css'
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Footer } = Layout;
 
 const Technician = props => {
 
