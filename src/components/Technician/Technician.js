@@ -23,7 +23,7 @@ const Technician = props => {
 
     const showModal = (record) => {
       setIsModalVisible(true);
-      setAppointId(record.vmId)
+      setAppointId(record.AId)
     };
 
     const handleCancel = () => {
@@ -44,7 +44,13 @@ const Technician = props => {
 
       }
 
-      axios.patch(`${process.env.REACT_APP_API_URL}/v1/appointment/${appointId}`, data, config )
+      axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/${appointId}`, {
+        newStatus: status
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then((res) => {
 
         if(res.status == 200){
@@ -293,7 +299,6 @@ const Technician = props => {
     }
 
     const takeover = (value, userId) => {
-
       let tOConfig = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -301,10 +306,8 @@ const Technician = props => {
       }
 
       let tOData = {
-
         technicianID : userId,
         appointmentID: value.AId
-
       }
 
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/takeover`, tOData, tOConfig )
@@ -326,39 +329,22 @@ const Technician = props => {
     }
 
     const decline = (record) => {
-
-      let dltConfig = {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        }
-      }
-
-      //console.log(accessToken);
-
-      let dltData = {
-
-        appointmentID: record.AId
-
-      }
-
       console.log(record.AId)
-
-      axios.delete(`${process.env.REACT_APP_API_URL}/v1/appointment`, dltConfig, dltData )
+      axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
+        appointmentID: record.AId
+      }, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      })
       .then((res) => {
-
         if(res.status == 200){
-
           console.log('delete')
           window.location.reload(true);
-
         }else{
-
           console.log('Cannot Delete')
-
         }
-
       })
-
     }
 
     return (
