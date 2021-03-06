@@ -213,7 +213,7 @@ const Dashboard = (props) => {
             <span>Built with ❤️ by Sid, Shaun and Cornelius<br/></span>
             <span>All Rights Reserved<br/></span>
             <span>Vending.js powered by Node.js, React.js, MongoDB and distancematrix.ai<br/></span>
-            Ant Design ©2018 Created by Ant UED
+            UI Components by Ant Design
           </Footer>
         </Layout>
       </Layout>   
