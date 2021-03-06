@@ -1,21 +1,12 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Menu, Breadcrumb, Table } from 'antd';
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-  LogoutOutlined
-} from '@ant-design/icons';
-import { LOGOUT } from '../../features/counter/authSlice';
+import { Layout, Breadcrumb, Table } from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
+import Map from '../Map/Map'
 import './Dashboard.css'
-const { Header, Content, Footer, Sider } = Layout;
-const { SubMenu } = Menu;
+const { Content, Footer  } = Layout;
 
 const Dashboard = (props) => {
     const [collapsed, setCollapsed] = useState(false);
@@ -25,6 +16,7 @@ const Dashboard = (props) => {
     const [table1, setTable1] = useState(true);
     const [table2, setTable2] = useState(false);
     const [table3, setTable3] = useState(false);
+    const [map, showMap] = useState(false);
 
     const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
@@ -166,36 +158,39 @@ const Dashboard = (props) => {
       .then(allentries => {
         setData2(allentries);
       })
-
     }, []);
 
     const table1Setter = (e) => {
-
       setTable1(e)
       setTable2(false)
       setTable3(false)
-
+      showMap(false)
     }
 
     const table2Setter = (e) => {
-
       setTable2(e)
       setTable3(false)
       setTable1(false)
-
+      showMap(false)
     }
 
     const table3Setter = (e) => {
-
       setTable3(e)
       setTable2(false)
       setTable1(false)
+      showMap(false)
+    }
 
+    const mapShow = (e) => {
+      showMap(e)
+      setTable1(false)
+      setTable2(false)
+      setTable3(false)
     }
 
   return (     
     <React.Fragment> 
-      <Navbar table1={table1Setter} table2={table2Setter} table3={table3Setter} />
+      <Navbar table1={table1Setter} table2={table2Setter} table3={table3Setter} showMap={mapShow}/>
       <Layout>
         <Layout className="site-layout">
           <Content style={{ margin: '0 16px' }}>
@@ -207,6 +202,11 @@ const Dashboard = (props) => {
               <Table style={ table1 ? { display: 'block' } : { display: 'none' } } columns={columns1} dataSource={data} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
               <Table style={ table2 ? { display: 'block' } : { display: 'none' } } columns={columns2} dataSource={data1} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
               <Table style={ table3 ? { display: 'block' } : { display: 'none' } } columns={columns3} dataSource={data2} pagination={{ pageSize: 50 }} scroll={{ y: 350 }} />
+              {map ?
+                <Map />
+                :
+                ''
+              }
             </div>
           </Content>
           <Footer style={{ textAlign: 'center' }}>Ant Design ©2018 Created by Ant UED</Footer>

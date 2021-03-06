@@ -4,9 +4,7 @@ import {
     DesktopOutlined,
     PieChartOutlined,
     FileOutlined,
-    TeamOutlined,
-    UserOutlined,
-    LogoutOutlined
+    HeatMapOutlined
   } from '@ant-design/icons';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import { LOGIN, LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
@@ -14,7 +12,7 @@ import { Layout, Menu, Breadcrumb, Table, Col, Row, Button } from 'antd';
 import { useDispatch } from 'react-redux';
 const { Header, Content, Footer, Sider } = Layout;
 
-const Navbar = ({ table1, table2, table3 }) => {
+const Navbar = ({ table1, table2, table3, showMap }) => {
 
     const dispatch = useDispatch();
 
@@ -34,6 +32,9 @@ const Navbar = ({ table1, table2, table3 }) => {
             </Menu.Item>
             <Menu.Item key="3" onClick={() => table2(true) } icon={<FileOutlined />}>
                 Appointments
+            </Menu.Item>
+            <Menu.Item key="4" onClick={() => showMap(true)} icon={<HeatMapOutlined />}>
+                Realtime Map
             </Menu.Item>
             <Button danger onClick={(e) => logout()}>Log Out</Button>
             </Menu>
