@@ -1,13 +1,15 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table } from 'antd';
+import { Layout, Breadcrumb, Table, Modal, Radio, Button} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Map from '../Map/Map'
 import './Dashboard.css'
-const { Content, Footer  } = Layout;
+import moment from 'moment';
 
+const { Content, Footer  } = Layout;
+moment().format(); 
 const Dashboard = (props) => {
     const [collapsed, setCollapsed] = useState(false);
     const [data, setData] = useState([]);
@@ -17,11 +19,20 @@ const Dashboard = (props) => {
     const [table2, setTable2] = useState(false);
     const [table3, setTable3] = useState(false);
     const [map, showMap] = useState(false);
+    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [appointId, setAppointId] = useState(0);
+    const [status, setStatus] = useState();
 
     const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
     const accessToken = useSelector(state => state.auth.token);
     const refreshToken = useSelector(state => state.auth.refreshToken);
+
+    const options = [
+      { label: 'Pending', value: 'Pending' },
+      { label: 'Ongoing', value: 'Ongoing' },
+      { label: 'Completed', value: 'Completed' },
+    ];
 
     const columns1 = [
       {
@@ -79,7 +90,7 @@ const Dashboard = (props) => {
 
     const columns3 = [
       {
-        title: 'User Id',
+        title: 'No.',
         dataIndex: 'user',
         width: 150,
       },
@@ -105,7 +116,7 @@ const Dashboard = (props) => {
           let i = 0;
           return res.data.map(entry => ({
             key: i++,
-            date: entry.createdAt,
+            date: moment(entry.createdAt).format("MM-DD-YYYY HH:mm"),
             title: entry.body,
             remarks: entry.remarks,
             urgency: entry.urgency
@@ -130,7 +141,7 @@ const Dashboard = (props) => {
             technicians: entry.technician.name,
             servtype: entry.serviceType,
             remarks: entry.remarks,
-            deadline: entry.deadline,
+            deadline: moment(entry.deadline).format("MM-DD-YYYY HH:mm"),
             status: entry.status
           }))
         }}
@@ -149,7 +160,7 @@ const Dashboard = (props) => {
           let i = 0;
           return res.data.results.map(entry => ({
             key: i++,
-            user: entry.id,
+            user: i,
             name: entry.name,
             email: entry.email
           }))
@@ -188,6 +199,62 @@ const Dashboard = (props) => {
       setTable3(false)
     }
 
+    const showModal = (record) => {
+      setIsModalVisible(true);
+      setAppointId(record.vmId)
+    };
+
+    const deal = (record) => {
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+
+      let data = {
+
+        vendingMachineId : record.vmId,
+        
+
+      }
+
+    }
+
+    const handleOk = () => {
+      console.log(`this is from state` + status)
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        }
+      }
+
+      let data = {
+
+        status: status
+
+      }
+
+      axios.patch(`${process.env.REACT_APP_API_URL}/v1/appointment/${appointId}`, data, config )
+      .then((res) => {
+
+        if(res.status == 200){
+
+          console.log('Updated')
+          setIsModalVisible(false);
+          window.location.reload(true);
+
+        }else{
+
+          console.log('Cannot Update')
+          setIsModalVisible(false);
+
+        }
+
+      })
+    };
+
   return (     
     <React.Fragment> 
       <Navbar table1={table1Setter} table2={table2Setter} table3={table3Setter} showMap={mapShow}/>
@@ -217,6 +284,7 @@ const Dashboard = (props) => {
           </Footer>
         </Layout>
       </Layout>   
+
     </React.Fragment> 
 
   );
