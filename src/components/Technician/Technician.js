@@ -79,12 +79,12 @@ const Technician = props => {
         {
           title: 'Appointment Id',
           dataIndex: 'AId',
-          width: 200,
+          width: 150,
         },
         {
           title: 'Complaint Id',
           dataIndex: 'CId',
-          width: 200,
+          width: 150,
         },
         {
           title: 'Technicians Id',
@@ -94,11 +94,11 @@ const Technician = props => {
         {
           title: 'Vending Id',
           dataIndex: 'vmId',
-          width: 200,
+          width: 150,
         },
         {
           title: 'Technicians',
-          dataIndex: 'techniciansid',
+          dataIndex: 'techniciansName',
           width: 150,
         },
         {
@@ -109,6 +109,7 @@ const Technician = props => {
         {
           title: 'Remarks',
           dataIndex: 'remarks',
+          width: 350,
         },
         {
           title: 'Deadline',
@@ -118,7 +119,7 @@ const Technician = props => {
 
           title: "Status",
           dataIndex: "status",
-          width: 150
+          width: 150,
 
         },
         {
@@ -130,6 +131,7 @@ const Technician = props => {
               {"Update"}
             </button>
            ),
+           width: 150,
 
         },
         {
@@ -141,6 +143,7 @@ const Technician = props => {
               {"Decline"}
             </button>
            ),
+           width: 150,
 
         }
     ];
@@ -169,6 +172,7 @@ const Technician = props => {
       {
         title: 'Remarks',
         dataIndex: 'remarks',
+        width: 350,
       },
       {
         title: 'Deadline',
@@ -190,7 +194,7 @@ const Technician = props => {
             {"Take Over"}
           </button>
          ),
-
+         width: 150,
       }
   ];
 
@@ -221,7 +225,7 @@ const Technician = props => {
                   AId: entry._id,
                   vmId: entry.vendingMachine._id,
                   CId: entry.complaint,
-                  technicians: entry.technician.name,
+                  techniciansName: entry.technician.name,
                   techniciansId: entry.technician.id,
                   servtype: entry.serviceType,
                   remarks: entry.remarks,
