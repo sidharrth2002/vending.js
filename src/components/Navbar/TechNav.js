@@ -22,6 +22,9 @@ const Navbar = () => {
             <Menu.Item key="1" icon={<PieChartOutlined />}>
                 Appointments
             </Menu.Item>
+            <Menu.Item key="2">
+                <a href="/routing">Best Route</a>
+            </Menu.Item>
             <Button danger onClick={(e) => logout()}>Log Out</Button>
             </Menu>
         </Header>

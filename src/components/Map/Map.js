@@ -3,7 +3,6 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
 
-
 const Map = props => {
     const accessToken = useSelector(state => state.auth.token);
     const [technicians, setTechnicians] = useState([]);
