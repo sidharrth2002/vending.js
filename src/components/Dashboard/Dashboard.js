@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table, Modal, Radio, Button} from 'antd';
+import { Layout, Breadcrumb, Table, Tag, Modal, Radio, Button, message} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Map from '../Map/Map'
@@ -260,11 +260,14 @@ const Dashboard = (props) => {
 
       console.log(data)
 
+      message.loading('System Calculating Best Technician')
+
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
       .then( (res) => {
 
         if(res.status == 200){
 
+          message.success('Appointment Made !')
           console.log("Appointment Made")
           window.location.reload(true);
 
