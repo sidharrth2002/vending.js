@@ -270,11 +270,8 @@ const Dashboard = (props) => {
       .then( (res) => {    
         setProgressVisible(false);
         if(res.status == 200){
-<<<<<<< HEAD
-=======
 
           message.success('Appointment Made !')
->>>>>>> a622f3713ce74620cc5cdbbd6bcc71cdb46f62b7
           console.log("Appointment Made")
             window.location.reload(true);
         } else {
