@@ -39,8 +39,21 @@
 
   width: 50%;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+
+}
+
+.left-section>h2{
+
+  font-size: 35px;
+
+}
+
+.left-section>h5{
+
+  font-size: 15px;
 
 }
 

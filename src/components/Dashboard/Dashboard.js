@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table, Modal, Radio, Button} from 'antd';
+import { Layout, Breadcrumb, Table, Tag, Modal, Radio, Button, message} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/Navbar'
 import Map from '../Map/Map'
@@ -145,7 +145,8 @@ const Dashboard = (props) => {
                 remarks: entry.body,
                 urgency: entry.urgency,
                 vendingMachine: entry.vendingMachine,
-                serviceType: entry.serviceType
+                serviceType: entry.serviceType,
+                try: "wts??"
               }
 
             }else{
@@ -248,7 +249,7 @@ const Dashboard = (props) => {
 
     const deal = (record) => {
 
-      console.log(record.key)
+      //console.log(record.try)
 
       let config = {
         headers: {
@@ -261,12 +262,19 @@ const Dashboard = (props) => {
         complaintId: record.key
       }
 
-      console.log(data)
-      setProgressVisible(true);
+      //console.log(data)
+
+      message.loading('System Calculating Best Technician')
+
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
       .then( (res) => {    
         setProgressVisible(false);
         if(res.status == 200){
+<<<<<<< HEAD
+=======
+
+          message.success('Appointment Made !')
+>>>>>>> a622f3713ce74620cc5cdbbd6bcc71cdb46f62b7
           console.log("Appointment Made")
             window.location.reload(true);
         } else {

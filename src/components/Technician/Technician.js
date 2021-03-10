@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import {  useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table, Modal, Radio} from 'antd';
+import { Layout, Breadcrumb, Table, Modal, Radio, message} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/TechNav'
 import '../Dashboard/Dashboard.css'
@@ -76,7 +76,7 @@ const Technician = props => {
     ];
 
     const columns = [
-        {
+/*         {
           title: 'Appointment Id',
           dataIndex: 'AId',
           width: 150,
@@ -90,12 +90,17 @@ const Technician = props => {
           title: 'Technicians Id',
           dataIndex: 'techniciansId',
           width: 150,
-        },
+        }, */
         {
+          title: 'Vending Machine Address',
+          dataIndex: 'vmAddress',
+          width: 300,
+        },
+/*         {
           title: 'Vending Id',
           dataIndex: 'vmId',
           width: 150,
-        },
+        }, */
         {
           title: 'Technicians',
           dataIndex: 'techniciansName',
@@ -149,7 +154,7 @@ const Technician = props => {
     ];
 
     const columns1 = [
-      {
+/*       {
         title: 'Appointment Id',
         dataIndex: 'AId',
         width: 200,
@@ -158,6 +163,11 @@ const Technician = props => {
         title: 'Vending Id',
         dataIndex: 'vmId',
         width: 200,
+      }, */
+      {
+        title: 'Vending Machine Address',
+        dataIndex: 'vmAddress',
+        width: 300,
       },
       {
         title: 'Technicians',
@@ -224,6 +234,7 @@ const Technician = props => {
                   key: entry._id,
                   AId: entry._id,
                   vmId: entry.vendingMachine._id,
+                  vmAddress: entry.vendingMachine.location.address,
                   CId: entry.complaint,
                   techniciansName: entry.technician.name,
                   techniciansId: entry.technician.id,
@@ -281,6 +292,7 @@ const Technician = props => {
                   key: entry._id,
                   AId: entry._id,
                   vmId: entry.vendingMachine._id,
+                  vmAddress: entry.vendingMachine.location.address,
                   technicians: entry.technician.name,
                   servtype: entry.serviceType,
                   remarks: entry.remarks,
@@ -349,9 +361,6 @@ const Technician = props => {
       console.log(record)
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
         appointmentID: record.AId
-/*         vendingMachineID: record.vmId,
-        technicianExclude: record.techniciansId,
-        complaintId: record.CId, */
       }, {
         headers: {
           Authorization: `Bearer ${accessToken}`

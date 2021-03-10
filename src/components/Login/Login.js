@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { Form, Input, Button, Checkbox, Alert } from 'antd';
+import { Form, Input, Button, Checkbox, message, Alert } from 'antd';
 import { useState } from 'react';
 import { LOGIN } from './../../features/counter/authSlice';
 import axios from 'axios'
@@ -37,12 +37,14 @@ export default function Login(props){
 
   async function handleSubmit(e){
     e.preventDefault()
+    message.loading('Logging In');
     await axios.post(`${process.env.REACT_APP_API_URL}/v1/auth/login`, {
       email: email, 
       password: password
     })
     .then(function (res){
       if(res.status == 200) {
+        message.success('Logged In')
         console.log(res)
         dispatch(
           LOGIN({
@@ -60,6 +62,7 @@ export default function Login(props){
       }
     })
     .catch((err) => {
+      message.error('Credentials are wrong')
       console.log(err);
     })
   }
@@ -74,7 +77,10 @@ export default function Login(props){
     <div className="main-wrapper">
       <div className = "login-wrapper">
       <div className = "left-section">
-        <img src={vendingSVG} alt="logo" height="300px" width="325px" />
+        {/* <img src={vendingSVG} alt="logo" height="300px" width="325px" /> */}
+        <h2>Vending.js</h2>
+        <br></br>
+        <h5>Humanising the vending experience</h5>
       </div>
       <div className = "right-section">
           <div className="title-block"> 
