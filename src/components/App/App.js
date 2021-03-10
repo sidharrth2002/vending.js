@@ -10,6 +10,7 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { LOGOUT, selectIsAuthenticated, selectUser } from './../../features/counter/authSlice';
 import CustomerService from '../CustomerService/CustomerService';
 import Routing from '../Routing/Routing';
+import Statistics from '../Statistics/Statistics';
 
 class App extends React.Component {
   constructor(props) {
@@ -44,6 +45,7 @@ class App extends React.Component {
           <ProtectedRoute exact path='/dashboard' component={Dashboard} />
           <ProtectedRoute exact path='/technician' component={Technician} />
           <ProtectedRoute exact path='/routing' component={Routing} />
+          <ProtectedRoute exact path='/statistics' component={Statistics} />
         </Switch>
       </div>
       );
