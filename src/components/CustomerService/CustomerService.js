@@ -1,8 +1,11 @@
 import React, { Component, useEffect, useState } from 'react';
+import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
 import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
-import { Button } from 'antd';
+import { Button, Steps, message } from 'antd';
+
+const { Step } = Steps;
 
 function postReq (props) {
 
@@ -69,6 +72,7 @@ function postReq (props) {
 }
 
 class Review extends Component {
+
   constructor(props) {
     super(props);
 
@@ -129,7 +133,7 @@ class Review extends Component {
 
             <tr>
 
-              <Button onClick={ () => {postReq(this.props)} } type="dashed">Submit Complaint</Button>
+              {/* <Button onClick={() => next()} type="dashed">Submit Complaint</Button> */}
 
             </tr>
           </tbody>
@@ -144,8 +148,19 @@ const CustomerService = props => {
     const [machine, setMachine] = useState({});
     const [loading, setLoading] = useState(true);
 
+    const [current, setCurrent] = React.useState(0);
+
+    const next = () => {
+      setCurrent(current + 1);
+    };
+  
+    const prev = () => {
+      setCurrent(current - 1);
+    };
+
     useEffect(() => {
         let id = props.match.params.id;
+        console.log(id)
         axios.post(`${process.env.REACT_APP_API_URL}/v1/vendingmachines/${id}`, {
             dummyAuth: 'corneliuspang'
         })
@@ -153,15 +168,19 @@ const CustomerService = props => {
             if(response.status == 200) {
                 setMachine(response.data);
                 setLoading(false);
+                console.log(response.data)
             }
         })
     }, [props.match.params.id])
 
-    return (
-    <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', minWidth: '450px !important'}}>
+    const steps = [
+      {
+        title: 'First',
+        content: <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', minWidth: '450px !important'}}>
         {loading ?
         'Loading...'  
         :
+
       <ChatBot
             steps={[
             {
@@ -247,105 +266,54 @@ const CustomerService = props => {
               component: <Review id = {props.match.params.id}/>,
               asMessage: true,
             },
-            //   {
-            //     id: 'name',
-            //     user: true,
-            //     trigger: '3',
-            //   },
-            //   {
-            //     id: '3',
-            //     message: 'Hi {previousValue}! What is your gender?',
-            //     trigger: 'gender',
-            //   },
-            //   {
-            //     id: 'gender',
-            //     options: [
-            //       { value: 'male', label: 'Male', trigger: '5' },
-            //       { value: 'female', label: 'Female', trigger: '5' },
-            //     ],
-            //   },
-            //   {
-            //     id: '5',
-            //     message: 'How old are you?',
-            //     trigger: 'age',
-            //   },
-            //   {
-            //     id: 'age',
-            //     user: true,
-            //     trigger: '7',
-            //     validator: (value) => {
-            //       if (isNaN(value)) {
-            //         return 'value must be a number';
-            //       } else if (value < 0) {
-            //         return 'value must be positive';
-            //       } else if (value > 120) {
-            //         return `${value}? Come on!`;
-            //       }
-
-            //       return true;
-            //     },
-            //   },
-            //   {
-            //     id: '7',
-            //     message: 'Great! Check out your summary',
-            //     trigger: 'review',
-            //   },
-            //   {
-            //     id: 'review',
-            //     component: <Review />,
-            //     asMessage: true,
-            //     trigger: 'update',
-            //   },
-            //   {
-            //     id: 'update',
-            //     message: 'Would you like to update some field?',
-            //     trigger: 'update-question',
-            //   },
-            //   {
-            //     id: 'update-question',
-            //     options: [
-            //       { value: 'yes', label: 'Yes', trigger: 'update-yes' },
-            //       { value: 'no', label: 'No', trigger: 'end-message' },
-            //     ],
-            //   },
-            //   {
-            //     id: 'update-yes',
-            //     message: 'What field would you like to update?',
-            //     trigger: 'update-fields',
-            //   },
-            //   {
-            //     id: 'update-fields',
-            //     options: [
-            //       { value: 'name', label: 'Name', trigger: 'update-name' },
-            //       { value: 'gender', label: 'Gender', trigger: 'update-gender' },
-            //       { value: 'age', label: 'Age', trigger: 'update-age' },
-            //     ],
-            //   },
-            //   {
-            //     id: 'update-name',
-            //     update: 'name',
-            //     trigger: '7',
-            //   },
-            //   {
-            //     id: 'update-gender',
-            //     update: 'gender',
-            //     trigger: '7',
-            //   },
-            //   {
-            //     id: 'update-age',
-            //     update: 'age',
-            //     trigger: '7',
-            //   },
-            //   {
-            //     id: 'end-message',
-            //     message: 'Thanks! Your data was submitted successfully!',
-            //     end: true,
-            //   },
             ]}
           />
         }
-      </div>
+        
+        <Button onClick={() => next()} type="dashed">Submit Complaint</Button>
+
+      </div>,
+      },
+      {
+        title: 'Second',
+        content: 'Second-content',
+      },
+      {
+        title: 'Last',
+        content: 'Last-content',
+      },
+    ];
+
+    return (
+    
+      <>
+        <Steps current={current}>
+          {steps.map(item => (
+            <Step key={item.title} title={item.title} />
+          ))}
+        </Steps>
+        <div className="steps-content">{steps[current].content}</div>
+        <div className="steps-action">
+          {current < steps.length - 1 && (
+            <Button type="primary" >
+              Next
+            </Button>
+          )}
+          {current === steps.length - 1 && (
+            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+              Done
+            </Button>
+          )}
+          {current > 0 && (
+            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+              Previous
+            </Button>
+          )}
+        </div>
+      </>
+
     );
 };
+
 
 export default CustomerService;
