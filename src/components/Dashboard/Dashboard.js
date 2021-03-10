@@ -143,7 +143,8 @@ const Dashboard = (props) => {
                 remarks: entry.body,
                 urgency: entry.urgency,
                 vendingMachine: entry.vendingMachine,
-                serviceType: entry.serviceType
+                serviceType: entry.serviceType,
+                try: "wts??"
               }
 
             }else{
@@ -245,7 +246,7 @@ const Dashboard = (props) => {
 
     const deal = (record) => {
 
-      console.log(record.key)
+      //console.log(record.try)
 
       let config = {
         headers: {
@@ -258,7 +259,7 @@ const Dashboard = (props) => {
         complaintId: record.key
       }
 
-      console.log(data)
+      //console.log(data)
 
       message.loading('System Calculating Best Technician')
 
