@@ -1,10 +1,11 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
 import {  useSelector } from 'react-redux';
-import { Layout, Breadcrumb, Table, Modal, Radio, message} from 'antd';
+import { Layout, Breadcrumb, Table, Modal, Radio, Button} from 'antd';
 import axios from 'axios';
 import Navbar from '../Navbar/TechNav'
 import '../Dashboard/Dashboard.css'
+import './Technician.css';
 const { Content, Footer } = Layout;
 
 const Technician = props => {
@@ -132,9 +133,7 @@ const Technician = props => {
           title: "Update",
           dataIndex: "button",
           render: (text, record) => (
-            <button onClick={()=> showModal(record)}>
-              {"Update"}
-            </button>
+            <Button onClick={()=> showModal(record)} >Update</Button>
            ),
            width: 150,
 
@@ -144,9 +143,7 @@ const Technician = props => {
           title: "Decline",
           dataIndex: "button",
           render: (text, record) => (
-            <button onClick={ () => { decline(record) } } >
-              {"Decline"}
-            </button>
+            <Button onClick={()=> decline(record)} >Decline</Button>
            ),
            width: 150,
 
@@ -200,9 +197,7 @@ const Technician = props => {
         title: "Take Over",
         dataIndex: "button",
         render: (text, record) => (
-          <button onClick={ () => { takeover(record, userId) } } >
-            {"Take Over"}
-          </button>
+          <Button onClick={()=> takeover(record)}>Table Over</Button>
          ),
          width: 150,
       }

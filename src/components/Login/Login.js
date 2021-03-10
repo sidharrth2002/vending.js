@@ -103,11 +103,11 @@ export default function Login(props){
             ''
           }
           <Form.Item name="email" rules={[{ required: true, message: 'Please input your email.' }]}>
-            <Input placeholder="Email Input" value = {email} onChange = {(e) => setEmail(e.target.value)}/>
+            <Input placeholder="Email" value = {email} onChange = {(e) => setEmail(e.target.value)}/>
           </Form.Item>
           <br></br>
           <Form.Item {...formItemLayout} type="password" name="password" rules={[{ required: true, message: 'Please input your password.' }]}>
-            <Input placeholder="Password Input" type="password" value = {password} onChange = {(e) => setPassword(e.target.value)}  iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
+            <Input placeholder="Password" type="password" value = {password} onChange = {(e) => setPassword(e.target.value)}  iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
           </Form.Item>
           <Form.Item {...tailLayout} name="remember" valuePropName="checked">
             <Checkbox>Remember me</Checkbox>
