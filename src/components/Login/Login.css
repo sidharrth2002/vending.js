@@ -181,4 +181,19 @@ body{
   
   }
 
+  .brand{
+
+    margin-top: 30px;
+
+  }
+
+  .left-section{
+
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-evenly !important;
+    align-items: center !important;
+
+  }
+
 }
