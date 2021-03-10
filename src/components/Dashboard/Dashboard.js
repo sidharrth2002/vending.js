@@ -47,7 +47,7 @@ const Dashboard = (props) => {
       },
       {
 
-        title: 'serviceType',
+        title: 'Service Type',
         dataIndex: 'serviceType',
         width: 150,
 
