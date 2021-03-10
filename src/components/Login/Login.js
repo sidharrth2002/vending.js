@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Input, Button, Checkbox, message, Alert } from 'antd';
+import { EyeTwoTone, EyeInvisibleOutlined } from '@ant-design/icons';
 import { useState } from 'react';
 import { LOGIN } from './../../features/counter/authSlice';
 import axios from 'axios'
@@ -78,9 +79,9 @@ export default function Login(props){
       <div className = "login-wrapper">
       <div className = "left-section">
         {/* <img src={vendingSVG} alt="logo" height="300px" width="325px" /> */}
-        <h2>Vending.js</h2>
+        <h2 className="brand" ><span class="brand-first">Vending</span>.<span className="brand-sec">js</span></h2>
         <br></br>
-        <h5>Humanising the vending experience</h5>
+        <h5 className="tagline">Humanising the vending experience</h5>
       </div>
       <div className = "right-section">
           <div className="title-block"> 
@@ -103,8 +104,8 @@ export default function Login(props){
             <Input placeholder="Email Input" value = {email} onChange = {(e) => setEmail(e.target.value)}/>
           </Form.Item>
           <br></br>
-          <Form.Item {...formItemLayout} name="password" rules={[{ required: true, message: 'Please input your password.' }]}>
-            <Input placeholder="Password Input" value = {password} onChange = {(e) => setPassword(e.target.value)} />
+          <Form.Item {...formItemLayout} type="password" name="password" rules={[{ required: true, message: 'Please input your password.' }]}>
+            <Input placeholder="Password Input" type="password" value = {password} onChange = {(e) => setPassword(e.target.value)}  iconRender={visible => (visible ? <EyeTwoTone /> : <EyeInvisibleOutlined />)}/>
           </Form.Item>
           <Form.Item {...tailLayout} name="remember" valuePropName="checked">
             <Checkbox>Remember me</Checkbox>

@@ -21,7 +21,9 @@ const Navbar = ({ table1, table2, table3, showMap }) => {
 
     return (
         <Header>
+
             <Menu theme="dark" defaultSelectedKeys={['1']} mode="horizontal">
+            <Menu.Item key="5" >Vending.js</Menu.Item>
             <Menu.Item key="1" onClick={() => table1(true) } icon={<PieChartOutlined />}>
                 Complaints
             </Menu.Item>
