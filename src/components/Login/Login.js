@@ -80,7 +80,7 @@ export default function Login(props){
           </Form.Item>
           <br></br>
           <Form.Item {...formItemLayout} name="password" rules={[{ required: true, message: 'Please input your password!' }]}>
-            <Input placeholder="Password Input" value = {password} onChange = {(e) => setPassword(e.target.value)} />
+            <Input type="password" placeholder="Password Input" value = {password} onChange = {(e) => setPassword(e.target.value)} />
           </Form.Item>
           <Form.Item {...tailLayout} name="remember" valuePropName="checked">
             <Checkbox>Remember me</Checkbox>
