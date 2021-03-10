@@ -38,7 +38,7 @@ export default function Login(props){
 
   async function handleSubmit(e){
     e.preventDefault()
-    message.loading('Logging In');
+    const login = message.loading('Logging In', 0);
     await axios.post(`${process.env.REACT_APP_API_URL}/v1/auth/login`, {
       email: email, 
       password: password
@@ -46,6 +46,7 @@ export default function Login(props){
     .then(function (res){
       if(res.status == 200) {
         message.success('Logged In')
+        setTimeout(login, 1);
         console.log(res)
         dispatch(
           LOGIN({
@@ -65,6 +66,7 @@ export default function Login(props){
     .catch((err) => {
       message.error('Credentials are wrong')
       console.log(err);
+      setTimeout(login, 1);
     })
   }
 
@@ -112,7 +114,7 @@ export default function Login(props){
           </Form.Item>
           <Form.Item {...tailLayout}>
             <Button type="primary" htmlType="submit" onClick={(e) => handleSubmit(e)}>
-              Submit
+              Let's Go
             </Button>
           </Form.Item>
         </Form>
