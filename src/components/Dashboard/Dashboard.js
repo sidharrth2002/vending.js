@@ -22,6 +22,7 @@ const Dashboard = (props) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [appointId, setAppointId] = useState(0);
     const [status, setStatus] = useState();
+    const [progressModalVisible, setProgressVisible] = useState(false);
 
     const user = useSelector(state => state.auth.user)
     const dispatch = useDispatch();
@@ -117,6 +118,7 @@ const Dashboard = (props) => {
     ]
 
     useEffect(() => {
+      document.title = 'Vending.js';
       axios.get(`${process.env.REACT_APP_API_URL}/v1/complaint`, {
         headers: { Authorization: `Bearer ${accessToken}` 
       }
@@ -174,6 +176,7 @@ const Dashboard = (props) => {
         //console.log(res)
         if(res.status == 200) {
           let i = 0;
+          console.log(res.data);
           return res.data.map(entry => ({
             key: i++,
             vmId: entry.vendingMachine.location.address,
@@ -259,21 +262,16 @@ const Dashboard = (props) => {
       }
 
       console.log(data)
-
+      setProgressVisible(true);
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
-      .then( (res) => {
-
+      .then( (res) => {    
+        setProgressVisible(false);
         if(res.status == 200){
-
           console.log("Appointment Made")
-          window.location.reload(true);
-
-        }else{
-
-          console.log("Appointment Not Made")
-
+            window.location.reload(true);
+        } else {
+            console.log("Appointment Not Made")
         }
-
       })
 
     }
@@ -313,6 +311,11 @@ const Dashboard = (props) => {
 
   return (     
     <React.Fragment> 
+      <>
+        <Modal title="Basic Modal" visible={progressModalVisible}>
+          <p>Server is Calculating...</p>
+        </Modal>
+      </>
       <Navbar table1={table1Setter} table2={table2Setter} table3={table3Setter} showMap={mapShow}/>
       <Layout>
         <Layout className="site-layout">

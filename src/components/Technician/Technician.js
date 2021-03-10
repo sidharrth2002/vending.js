@@ -199,7 +199,7 @@ const Technician = props => {
   ];
 
     useEffect(() => {
-  
+        document.title = 'Vending.js';
         axios.get(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
           headers: { Authorization: `Bearer ${accessToken}` 
         }

@@ -8,6 +8,8 @@ const Map = props => {
     const [technicians, setTechnicians] = useState([]);
 
     useEffect(async() => {
+        document.title = 'Vending.js';
+
         const response = await axios.get(`${process.env.REACT_APP_API_URL}/v1/users/technicians`, {
             headers: { 
                 Authorization: `Bearer ${accessToken}` 

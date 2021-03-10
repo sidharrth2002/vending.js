@@ -39,6 +39,7 @@ class App extends React.Component {
           <Route exact path='/login'>
             <Login />
           </Route>
+          <Route exact path='/' component={Login} />
           <Route exact path='/customerservice/:id' component={CustomerService} />
           <ProtectedRoute exact path='/dashboard' component={Dashboard} />
           <ProtectedRoute exact path='/technician' component={Technician} />

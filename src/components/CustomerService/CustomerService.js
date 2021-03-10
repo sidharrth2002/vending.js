@@ -80,6 +80,9 @@ class Review extends Component {
     };
   }
 
+  componentDidMount() {
+    document.title = 'Vending.js';
+  }
 
   componentWillMount() {
     const { steps } = this.props;

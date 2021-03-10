@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { Form, Input, Button, Checkbox, Alert } from 'antd';
 import { useState } from 'react';
@@ -30,6 +30,11 @@ export default function Login(props){
   const [redirectAdmin, setRedirectAdmin] = useState(false);
   const [redirectTech, setRedirectTech] = useState(false);
   const [error, showError] = useState(false);
+
+  useEffect(() => {
+    document.title = 'Vending.js';
+  }, [])
+
   async function handleSubmit(e){
     e.preventDefault()
     await axios.post(`${process.env.REACT_APP_API_URL}/v1/auth/login`, {
