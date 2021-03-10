@@ -263,7 +263,7 @@ const Dashboard = (props) => {
       }
 
       //console.log(data)
-
+      setProgressVisible(true);
       message.loading('System Calculating Best Technician')
 
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
