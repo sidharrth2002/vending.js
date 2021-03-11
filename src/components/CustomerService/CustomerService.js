@@ -100,44 +100,78 @@ class Review extends Component {
 
     return (
       <div style={{ width: '100%' }}>
-        <h3>Summary</h3>
-        <table>
-          <tbody>
-          
-            <tr>
-              { refuelItemInput ? `<td>`+`Refueling Items : `+`</td>`+`
-              <td>`+`${refuelItemInput.value}`+`</td>` : "" }
-            </tr>
-            <tr>
-            { serviceOptions ? `<td>`+`Service Types Chosen : `+`</td>`+`
-              <td>`+`${serviceOptions.value}`+`</td>` : "" }
-            </tr>
-            <tr>
-            { urgencyInput ? `<td>`+`Urgency : `+`</td>`+`
-              <td>`+`${urgencyInput.value}`+`</td>` : "" }
-            </tr>
-            <tr>
-            { moneyGoneRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
-              <td>`+`${moneyGoneRemarksInput.value}`+`</td>` : "" }
-            </tr>
-            <tr>
-              { repairRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
-              <td>`+`${repairRemarksInput.value}`+`</td>` : "" }
-            </tr>
-            <tr>
-              { refuelItemRemarksInput ? '<td>'+`Remarks : `+`</td>`+`
-              <td>`+`${refuelItemRemarksInput.value}`+`</td>` : "" }
-            </tr>
+        <h3 style={{ color: 'white' }}>Summary</h3>
+        <ul style={{padding: '0', listStyle: 'none'}}>          
+            { refuelItemInput ? <li>{(`Refueling Items : ${refuelItemInput.value}`)}</li> : "" }
+            
+            { serviceOptions ? <li>{`Service Types Chosen: ${serviceOptions.value}`}</li> : "" }
+            
+            
+            { urgencyInput ? <li>{`Urgency : ${urgencyInput.value}`}</li> : "" }
+            
+            
+            { moneyGoneRemarksInput ? <li>{`Remarks : ${moneyGoneRemarksInput.value}`}</li> : "" }
+            
+            
+              { repairRemarksInput ? <li>{`Remarks : ${repairRemarksInput.value}`}</li> : "" }
+            
+            
+              { refuelItemRemarksInput ? <li>{`Remarks : ${refuelItemRemarksInput.value}`}</li> : "" }
+            
+              <li>
+
+                <Button onClick={() => this.props.nextStep()} type="dashed">Submit Complaint</Button>
+
+              </li>
 
             <br></br>
 
-            <tr>
 
-              {/* <Button onClick={() => next()} type="dashed">Submit Complaint</Button> */}
+          </ul>
+      </div>
+    );
+  }
+}
+class FileUploader extends React.Component {
+  state = {
+    imageUrl: null,
+    imageAlt: null
+  }
 
-            </tr>
-          </tbody>
-        </table>
+  handleImageUpload = () => {
+    const { files } = document.querySelector('input[type="file"]')
+    const formData = new FormData();
+    formData.append('file', files[0]);
+    // replace this with your upload preset name
+    formData.append('upload_preset', 'sxfaztga');
+    const options = {
+      method: 'POST',
+      body: formData,
+    };
+    
+    // replace cloudname with your Cloudinary cloud_name
+    return fetch('https://api.Cloudinary.com/v1_1/vendingjs/image/upload', options)
+      .then(res => res.json())
+      .then(res => {
+        this.setState({
+          imageUrl: res.secure_url,
+          imageAlt: `An image of ${res.original_filename}`
+        })
+      })
+      .catch(err => console.log(err));
+  }
+
+  render() {
+    const { imageUrl, imageAlt } = this.state;
+
+    return (
+      <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column', textAlign: 'center'}}>
+        <form>
+          <input style={{marginBottom: '30px'}} type="file"/>
+          <br/>
+          <button style={{marginBottom: '30px'}} type="button" className="btn-primary" onClick={this.handleImageUpload}>Submit</button>
+        </form>
+        {/* <div>{imageUrl}</div> */}
       </div>
     );
   }
@@ -175,13 +209,18 @@ const CustomerService = props => {
 
     const steps = [
       {
-        title: 'First',
+        // 'Bla bla bla'
+        // title: 'bla bla',
+        // content: <button onClick={()=>next()}>Dummy Next</button>
+        title: 'Talk with the bot!',
         content: <div style={{display: 'flex', minHeight: '100vh', justifyContent: 'center', alignItems: 'center', minWidth: '450px !important'}}>
         {loading ?
-        'Loading...'  
-        :
-
-      <ChatBot
+        
+          'Loading...'  
+        
+          :
+        
+          <ChatBot
             steps={[
             {
                 id: '1',
@@ -263,52 +302,53 @@ const CustomerService = props => {
             },
             {
               id: 'summary',
-              component: <Review id = {props.match.params.id}/>,
+              component: <Review nextStep={next} id = {props.match.params.id}/>,
               asMessage: true,
             },
             ]}
           />
         }
         
-        <Button onClick={() => next()} type="dashed">Submit Complaint</Button>
+        {/* <Button onClick={() => next()} type="dashed">Submit Complaint</Button> */}
 
       </div>,
       },
       {
-        title: 'Second',
-        content: 'Second-content',
+        title: 'Photo Reference',
+        content: <FileUploader />,
       },
-      {
-        title: 'Last',
-        content: 'Last-content',
-      },
+      // {
+      //   title: 'Last',
+      //   content: 'Last-content',
+      // },
     ];
 
     return (
     
       <>
-        <Steps current={current}>
+        <Steps style={{padding: '20px 100px', display: 'flex'}} current={current}>
           {steps.map(item => (
             <Step key={item.title} title={item.title} />
           ))}
         </Steps>
         <div className="steps-content">{steps[current].content}</div>
-        <div className="steps-action">
-          {current < steps.length - 1 && (
+
+        <div className="steps-action" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+          {/* {current < steps.length - 1 && (
             <Button type="primary" >
               Next
             </Button>
-          )}
+          )} */}
           {current === steps.length - 1 && (
-            <Button type="primary" onClick={() => message.success('Processing complete!')}>
+            <Button style={{maxWidth: '100px'}} type="primary" onClick={() => message.success('Processing complete!')}>
               Done
             </Button>
           )}
-          {current > 0 && (
-            <Button style={{ margin: '0 8px' }} onClick={() => prev()}>
+          {/* {current > 0 && (
+            <Button style={{ margin: '0 8px' }} type="dashed"  onClick={() => prev()}>
               Previous
             </Button>
-          )}
+          )} */}
         </div>
       </>
 
