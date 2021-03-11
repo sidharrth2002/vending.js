@@ -138,7 +138,7 @@ const Dashboard = (props) => {
       }
       })
       .then((res) => {
-        console.log(res.data)
+        //console.log(res.data)
         if(res.status == 200) {
 /*           return res.data.map(entry => ({
             key: i++,
@@ -296,8 +296,6 @@ const Dashboard = (props) => {
 
     const deal = (record) => {
 
-      //console.log(record.try)
-
       let config = {
         headers: {
           Authorization: `Bearer ${accessToken}`,
@@ -309,20 +307,21 @@ const Dashboard = (props) => {
         complaintId: record.key
       }
 
-      //console.log(data)
       setProgressVisible(true);
-      message.loading('System Calculating Best Technician')
+      const deal = message.loading('System Calculating Best Technician', 0)
 
       axios.post(`${process.env.REACT_APP_API_URL}/v1/appointment/autoappointment`, data, config)
       .then( (res) => {    
         setProgressVisible(false);
         if(res.status == 200){
 
+          setTimeout(deal, 1);
           message.success('Appointment Made !')
           console.log("Appointment Made")
             window.location.reload(true);
         } else {
-            console.log("Appointment Not Made")
+          setTimeout(deal, 1);
+          message.error("Appointment Not Made !!! ");
         }
       })
 
