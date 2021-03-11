@@ -53,8 +53,22 @@ const Dashboard = (props) => {
 
       },
       {
+        title: 'Tags',
+        /* dataIndex: 'tags', */
+        width: 150,
+        render: object => renderTagsCell(object),
+      },
+      {
         title: 'Urgency',
         dataIndex: 'urgency',
+        width: 150,
+      },
+      {
+        title: 'Photo',
+        dataIndex: 'photoButton',
+        render: (text, record) => (
+          <Button onClick={ ()=> viewPhoto(record) }>View Photo</Button>
+         ),
         width: 150,
       },
       {
@@ -137,6 +151,16 @@ const Dashboard = (props) => {
 
           return res.data.map(function(entry, i){
 
+            var tags = [];
+
+            var tagsFrmRes = entry.photoTags;
+
+            for(var i = 0; i < tagsFrmRes.length; i++){
+
+              tags.push(tagsFrmRes[i].tag)
+
+            }
+
             if(entry.status == "Unsolved"){
 
               return {
@@ -144,9 +168,10 @@ const Dashboard = (props) => {
                 date: moment(entry.createdAt).format("MM-DD-YYYY HH:mm"),
                 remarks: entry.body,
                 urgency: entry.urgency,
+                photoUrl: entry.photo,
+                tags: tags,
                 vendingMachine: entry.vendingMachine,
-                serviceType: entry.serviceType,
-                try: "wts??"
+                serviceType: entry.serviceType
               }
 
             }else{
@@ -161,12 +186,18 @@ const Dashboard = (props) => {
       )
       .then(allentries => {
 
+        var filteredEntries = [];
+
         for (var propName in allentries) {
           if (allentries[propName] === null || allentries[propName] === undefined) {
             delete allentries[propName];
+          }else{
+
+            filteredEntries.push(allentries[propName]);
+
           }
         }
-        setData(allentries);
+        setData(filteredEntries);
       })
 
       axios.get(`${process.env.REACT_APP_API_URL}/v1/appointment`, {
@@ -247,6 +278,22 @@ const Dashboard = (props) => {
       setAppointId(record.vmId)
     };
 
+    const renderTagsCell = (object) => {  
+      var rows = [];
+
+      for(var i=0; i < object.tags.length; i++){
+        rows.push( <li> {object.tags[i]} </li> )
+      }
+
+      return (
+        <>
+          <ul>
+            { rows }
+          </ul>
+        </>
+      )
+    }
+
     const deal = (record) => {
 
       //console.log(record.try)
@@ -278,6 +325,12 @@ const Dashboard = (props) => {
             console.log("Appointment Not Made")
         }
       })
+
+    }
+
+    const viewPhoto = (record) => {
+
+      window.open(record.photoUrl)
 
     }
 
