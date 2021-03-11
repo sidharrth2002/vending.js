@@ -6,71 +6,6 @@ import axios from 'axios';
 import { Button, Steps, message } from 'antd';
 
 const { Step } = Steps;
-
-function postReq (props) {
-
-  console.log(props)
-  let id = props.id
-  console.log(id)
-  const { steps } = props;
-  const { refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
-  let data = {}
-  let remarks = ""
-
-  if(moneyGoneRemarksInput){
-
-    remarks = moneyGoneRemarksInput.value
-
-  }else if(repairRemarksInput){
-
-    remarks = repairRemarksInput.value
-
-  }
-
-  if(refuelItemInput){
-
-    data = {
-
-      vendingMachine: id,
-      serviceType: serviceOptions.value,
-      urgency: urgencyInput.value,
-      body: refuelItemRemarksInput.value,
-      itemsToRefill: refuelItemInput.value
-
-    }
-
-  }else{
-
-    data = {
-
-      vendingMachine: id,
-      serviceType: serviceOptions.value,
-      urgency: urgencyInput.value,
-      body: remarks,
-
-    }
-    
-  }
-
-  console.log(data)
-
-  axios.post(`${process.env.REACT_APP_API_URL}/v1/complaint`, data)
-  .then((res) =>{
-
-    if(res.status == 200){
-
-      console.log("Post Succeed")
-
-    }else{
-
-      console.log("Post Not Send")
-
-    }
-
-  })
-
-}
-
 class Review extends Component {
 
   constructor(props) {
@@ -82,6 +17,44 @@ class Review extends Component {
       moneyGoneRemarksInput: 0,
       urgencyInput: 0
     };
+  }
+
+  async postReq() {
+    console.log(this.props)
+    let id = this.props.id
+    console.log(id)
+    const { steps } = this.props;
+    const { refuelItemRemarksInput, urgencyInput, repairRemarksInput, refuelItemInput, serviceOptions, moneyGoneRemarksInput } = steps;
+    let data = {}
+    let remarks = ""
+    if(moneyGoneRemarksInput){
+      remarks = moneyGoneRemarksInput.value
+    } else if(repairRemarksInput){
+      remarks = repairRemarksInput.value
+    }
+  
+    if (refuelItemInput){
+      data = {
+        vendingMachine: id,
+        serviceType: serviceOptions.value,
+        urgency: urgencyInput.value,
+        body: refuelItemRemarksInput.value,
+        itemsToRefill: refuelItemInput.value
+      }
+    } else{
+      data = {
+        vendingMachine: id,
+        serviceType: serviceOptions.value,
+        urgency: urgencyInput.value,
+        body: remarks,
+      }
+    }
+  
+    console.log(data)
+  
+    let result = await axios.post(`${process.env.REACT_APP_API_URL}/v1/complaint`, data);
+    //the id of new complaint
+    return result.data._id;
   }
 
   componentDidMount() {
@@ -120,7 +93,10 @@ class Review extends Component {
             
               <li>
 
-                <Button onClick={() => this.props.nextStep()} type="dashed">Submit Complaint</Button>
+                <Button onClick={async() => {
+                  let id = await this.postReq();
+                  this.props.nextStep(id);
+                }} type="dashed">Submit Complaint</Button>
 
               </li>
 
@@ -138,27 +114,32 @@ class FileUploader extends React.Component {
     imageAlt: null
   }
 
-  handleImageUpload = () => {
+  handleImageUpload = async() => {
+    console.log(this.props.complaintID);
     const { files } = document.querySelector('input[type="file"]')
     const formData = new FormData();
     formData.append('file', files[0]);
     // replace this with your upload preset name
     formData.append('upload_preset', 'sxfaztga');
-    const options = {
-      method: 'POST',
-      body: formData,
-    };
+    // const options = {
+    //   method: 'POST',
+    //   body: formData,
+    // };
     
     // replace cloudname with your Cloudinary cloud_name
-    return fetch('https://api.Cloudinary.com/v1_1/vendingjs/image/upload', options)
-      .then(res => res.json())
-      .then(res => {
-        this.setState({
-          imageUrl: res.secure_url,
-          imageAlt: `An image of ${res.original_filename}`
-        })
-      })
-      .catch(err => console.log(err));
+    let result = await axios.post('https://api.Cloudinary.com/v1_1/vendingjs/image/upload', formData)
+    this.setState({
+      imageUrl: result.secure_url,
+      imageAlt: `An image of ${result.original_filename}`
+    });
+
+    console.log(result.data.secure_url);
+
+    //patch the photo to server;
+    let response = await axios.post(`${process.env.REACT_APP_API_URL}/v1/complaint/addphoto/${this.props.complaintID}`, {
+      photo: result.data.secure_url
+    });
+    console.log(response);
   }
 
   render() {
@@ -169,7 +150,7 @@ class FileUploader extends React.Component {
         <form>
           <input style={{marginBottom: '30px'}} type="file"/>
           <br/>
-          <button style={{marginBottom: '30px'}} type="button" className="btn-primary" onClick={this.handleImageUpload}>Submit</button>
+          <Button style={{marginBottom: '30px'}} type="primary" onClick={this.handleImageUpload}>Submit</Button>
         </form>
         {/* <div>{imageUrl}</div> */}
       </div>
@@ -178,13 +159,14 @@ class FileUploader extends React.Component {
 }
 
 const CustomerService = props => {
-
+    const [complaintID, setComplaintID] = useState('');
     const [machine, setMachine] = useState({});
     const [loading, setLoading] = useState(true);
 
     const [current, setCurrent] = React.useState(0);
 
-    const next = () => {
+    const next = (newcomplaintID) => {
+      setComplaintID(newcomplaintID);
       setCurrent(current + 1);
     };
   
@@ -315,7 +297,7 @@ const CustomerService = props => {
       },
       {
         title: 'Photo Reference',
-        content: <FileUploader />,
+        content: <FileUploader complaintID={complaintID} />,
       },
       // {
       //   title: 'Last',
@@ -339,11 +321,11 @@ const CustomerService = props => {
               Next
             </Button>
           )} */}
-          {current === steps.length - 1 && (
+          {/* {current === steps.length - 1 && (
             <Button style={{maxWidth: '100px'}} type="primary" onClick={() => message.success('Processing complete!')}>
               Done
             </Button>
-          )}
+          )} */}
           {/* {current > 0 && (
             <Button style={{ margin: '0 8px' }} type="dashed"  onClick={() => prev()}>
               Previous
