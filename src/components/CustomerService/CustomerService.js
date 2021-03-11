@@ -1,9 +1,7 @@
 import React, { Component, useEffect, useState } from 'react';
-import { UserOutlined, SolutionOutlined, LoadingOutlined, SmileOutlined } from '@ant-design/icons';
-import PropTypes from 'prop-types';
 import ChatBot from 'react-simple-chatbot';
 import axios from 'axios';
-import { Button, Steps, message } from 'antd';
+import { Button, Steps } from 'antd';
 
 const { Step } = Steps;
 class Review extends Component {
@@ -316,21 +314,6 @@ const CustomerService = props => {
         <div className="steps-content">{steps[current].content}</div>
 
         <div className="steps-action" style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-          {/* {current < steps.length - 1 && (
-            <Button type="primary" >
-              Next
-            </Button>
-          )} */}
-          {/* {current === steps.length - 1 && (
-            <Button style={{maxWidth: '100px'}} type="primary" onClick={() => message.success('Processing complete!')}>
-              Done
-            </Button>
-          )} */}
-          {/* {current > 0 && (
-            <Button style={{ margin: '0 8px' }} type="dashed"  onClick={() => prev()}>
-              Previous
-            </Button>
-          )} */}
         </div>
       </>
 
