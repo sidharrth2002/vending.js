@@ -1,1 +1,1 @@
-Let's write kickass documentation.
+The docs go here, but too lazy to write stuff now.
