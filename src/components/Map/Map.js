@@ -41,7 +41,7 @@ const Map = props => {
 
     return (
         <div style={{ display: 'flex', justifyContent: 'center' }}>
-            <LoadScript googleMapsApiKey="AIzaSyBN5MoqYOqVjmxji7ZcV6aJhiTzcYfgpR0">
+            <LoadScript googleMapsApiKey={process.env.API_KEY}>
                 <GoogleMap mapContainerStyle={containerStyle} 
                 center={center} 
                 zoom={10}>
